@@ -97,6 +97,40 @@ img {
   margin: 1rem 0;
 }
 
+#side-nav > a.active {
+  animation: expand 500ms;
+  width: 1.5rem;
+}
+
+#side-nav > a:hover {
+  animation: expand 500ms;
+  width: 1.5rem;
+}
+
+#side-nav > a:not(:hover):not(.active) {
+  animation: retract 500ms;
+}
+
+@keyframes expand {
+  from {
+    width: 1rem;
+  }
+
+  to {
+    width: 1.5rem;
+  }
+}
+
+@keyframes retract {
+  from {
+    width: 1.5rem;
+  }
+
+  to {
+    width: 1rem;
+  }
+}
+
 /* Content */
 main {
   grid-area: main-content;
