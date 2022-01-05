@@ -15,6 +15,13 @@ const cubicEasingInOut = (currentTime: number, startValue: number, change: numbe
     return change / 2 * (currentTime * currentTime * currentTime + 2) + startValue;
 };
 
+/**
+ * Translate each element in a list vertically in an easing motion
+ * @param sections (Array<HTMLElement>): List of elements
+ * @param duration (number): Time to go from previous section to next section
+ * @param oldPosition (number): Displacement (by percentage) of element leaving
+ * @param newPosition (number): Displacement (by percentage) of element going to
+ */
 export const translateElements = (sections: Array<HTMLElement>, duration: number, oldPosition: number, newPosition: number): void => {
     let currentTimestamp: number | null = null;
 

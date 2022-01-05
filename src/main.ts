@@ -13,7 +13,7 @@ const isDefinedType = <T>(item: T | null | undefined): item is T => {
  * Limits a function call to once per wait interval.
  * @param func (Function): Function to apply throttle
  * @param wait (number): Interval in ms the function must wait before being able to be called again
- * @returns void
+ * @returns function
  */
 const throttle = (func: Function, wait: number = 500): Function => {
     let isThrottled: boolean = false;
@@ -36,7 +36,13 @@ const throttle = (func: Function, wait: number = 500): Function => {
     }
 };
 
-const calculatePosition = (sectionOrder: Array<string>, currentSection: string): number => {
+/**
+ * Finds the index of a hash and calculates the displacement (by percentage) based off of index location
+ * @param sectionOrder (Array<string>): List of hashes
+ * @param currentSection (string): Hash in list
+ * @returns percentage displaced (number)
+ */
+const calculateDisplacementByHash = (sectionOrder: Array<string>, currentSection: string): number => {
     const currentSectionIndex = sectionOrder.indexOf(currentSection);
     let finalValue = 0;
 
@@ -47,7 +53,12 @@ const calculatePosition = (sectionOrder: Array<string>, currentSection: string):
     return finalValue;
 };
 
-const calculateTransform = (section: HTMLElement): number => {
+/**
+ * Calculates the vertical displacement, gets the height and calculates the distance (by percentage) displaced from original location
+ * @param section (HTMLElement)
+ * @returns percentage displaced (number)
+ */
+const calculateDisplacementByElement = (section: HTMLElement): number => {
     const style = window.getComputedStyle(section);
     const matrix = new DOMMatrix(style.transform);
     const height = section.offsetHeight;
@@ -55,16 +66,39 @@ const calculateTransform = (section: HTMLElement): number => {
     return Math.round((matrix.m42 / height) * 100);
 };
 
-const getElementIds = (sections: Array<HTMLElement>): string[] => {
+/**
+ * Gets all the id's of elements in an array
+ * @param sections (Array<HTMLElement>)
+ * @returns Array<string>
+ */
+const getElementIds = (sections: Array<HTMLElement>): Array<string> => {
     return sections.map((element: HTMLElement) => element.id);
 };
 
-const handleTransition = (sections: Array<HTMLElement>): void => {
+/**
+ * Performs UI changes for when hash fragment changes
+ * @param sections (Array<HTMLElement>)
+ * @param sideNavLinks (NodeListOf<HTMLElement>)
+ * @returns void
+ */
+const handleTransition = (sections: Array<HTMLElement>, sideNavLinks: NodeListOf<HTMLElement>): void => {
     const sectionIds = getElementIds(sections);
     const currentLocation = window.location.hash.substring(1).concat('-id');
-    const newPosition = calculatePosition(sectionIds, currentLocation);
-    const oldPosition = calculateTransform(sections[0]);
+    const newPosition = calculateDisplacementByHash(sectionIds, currentLocation);
+    const oldPosition = calculateDisplacementByElement(sections[0]);
+    const newPositionIndex = sectionIds.indexOf(currentLocation);
+    
+    // Update side navigation
+    sideNavLinks.forEach((element: HTMLElement) => {
+        if (element.className === 'active') {
+            element.removeAttribute('class');
+            return;
+        }
+    });
 
+    sideNavLinks[newPositionIndex].setAttribute('class', 'active');
+
+    // Move elements to new location
     translateElements(sections, 1200, oldPosition, newPosition);
 };
 
@@ -72,7 +106,8 @@ const handleTransition = (sections: Array<HTMLElement>): void => {
 const sections: Array<HTMLElement> = ['landing-id', 'about-id', 'skills-id', 'contact-id'].map((elementId: string) => {
    return document.getElementById(elementId);
 }).filter(isDefinedType);
+const sideNavLinks = document.querySelectorAll<HTMLElement>('#side-nav > a');
 window.location.hash = '#landing';
 
 /** Event listeners */
-window.addEventListener('hashchange', () => handleTransition(sections));
+window.addEventListener('hashchange', () => handleTransition(sections, sideNavLinks));
