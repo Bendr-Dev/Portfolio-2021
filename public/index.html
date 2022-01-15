@@ -21,13 +21,29 @@
         <script defer type="module" src="../src/main.ts"></script>
     </head>
 <body>
-    <!-- Main navigation -->
-    <nav>
-        <img src="../static/BELogo.png"/>
-        <img src="../static/menuIcon.png" class="menuButton" />
-    </nav>
+    <div id="logo">
+        <a href="#landing">
+            <img src="../static/logo.png" alt="Brandon Endres" />
+        </a>
+    </div>
+    <!-- Menu Navigation -->
+    <div id="menu-bar">
+        <div id="menu-button" class="button">
+            <div class="bar top"></div>
+            <div class="bar middle"></div>
+            <div class="bar bottom"></div>
+        </div>
+    </div>
+    <div id="menu-dropdown" >
+        <nav id="menu-list">
+            <a href="#landing">Landing</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
     <!-- Content -->
-    <main>
+    <main id="main-content">
         <section id="landing-id">
             <h1>Brandon Endres</h1>
             <div class="border"></div>
@@ -47,11 +63,11 @@
         </section>
     </main>
     <!-- Side navigation -->
-    <aside id="side-nav">
+    <nav id="side-nav">
         <a href="#landing" class="active"></a>
         <a href="#about"></a>
         <a href="#skills"></a>
         <a href="#contact"></a>
-    </aside>
+    </nav>
 </body>
 </html>
