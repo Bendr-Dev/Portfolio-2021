@@ -161,22 +161,6 @@ p {
   transition: all 500ms;
 }
 
-#menu-list > a::after {
-  content: "";
-  width: 100%;
-  transform: scaleX(0);
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--text-color);
-  transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
-}
-#menu-list > a:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
-
 #side-nav {
   position: fixed;
   top: 0;
