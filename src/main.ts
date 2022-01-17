@@ -98,9 +98,77 @@ const getElementIds = (sections: Array<HTMLElement>): Array<string> => {
   return sections.map((element: HTMLElement) => element.id);
 };
 
-const toggleMenu = (menu: HTMLElement, menuButton: HTMLElement) => {
+/**
+ * Toggles 'active' class on menu elements
+ * @param menu (HTMLElement)
+ * @param menuButton (HTMLElement)
+ * @returns void
+ */
+const toggleMenu = (menu: HTMLElement, menuButton: HTMLElement): void => {
   menu.classList.toggle("active");
   menuButton.classList.toggle("active");
+};
+
+/**
+ * Executes a Event function only if menu is closed
+ * @param func (Function): UIEvent triggered
+ * @param menuButton (HTMLElement)
+ * @returns Function | undefined
+ */
+const handleEventTrigger = (func: Function, menuButton: HTMLElement) => {
+  if (!menuButton.classList.contains("active")) {
+    return function (this: any) {
+      const context = arguments;
+      func.apply(this, context);
+    };
+  }
+};
+
+const handleUIEvent = <UIEvent>(
+  event: UIEvent,
+  { mainContent }: AppHtmlElements
+) => {
+  const sectionIds = getElementIds(mainContent);
+  const calculateNextHash = (
+    sectionIds: Array<string>,
+    direction: 1 | -1
+  ): string => {
+    const currentLocationIndex = sectionIds.indexOf(
+      window.location.hash.substring(1).concat("-id")
+    );
+    let nextLocationHash: string = "#landing";
+
+    if (
+      currentLocationIndex !== -1 &&
+      currentLocationIndex + direction < sectionIds.length &&
+      currentLocationIndex + direction > -1
+    ) {
+      nextLocationHash = `#${sectionIds[
+        currentLocationIndex + direction
+      ].substring(0, sectionIds[currentLocationIndex + direction].length - 3)}`;
+    }
+
+    return nextLocationHash;
+  };
+
+  if (event instanceof KeyboardEvent) {
+    switch (event.key) {
+      case "ArrowUp":
+      case "w":
+      case "W":
+        window.location.hash = calculateNextHash(sectionIds, -1);
+        break;
+      case "ArrowDown":
+      case "s":
+      case "S":
+        window.location.hash = calculateNextHash(sectionIds, 1);
+        break;
+    }
+  } else if (event instanceof WheelEvent) {
+    // Handle Wheel scroll
+  } else if (event instanceof TouchEvent) {
+    // Handle touch event
+  }
 };
 
 /**
@@ -120,6 +188,8 @@ const handleTransition = ({
   const newPosition = calculateDisplacementByHash(sectionIds, currentLocation);
   const oldPosition = calculateDisplacementByElement(mainContent[0]);
   const newPositionIndex = sectionIds.indexOf(currentLocation);
+
+  // Make sure hash is valid
 
   // Update side navigation
   sideNavLinks.forEach((element: HTMLElement) => {
