@@ -7,6 +7,11 @@ interface AppHtmlElements {
   menuButton: HTMLElement;
 }
 
+interface Point {
+  x: number | null;
+  y: number | null;
+}
+
 /**
  * Type narrows an object
  * @param item (T | undefined | null): object to check
@@ -35,7 +40,7 @@ const getSingleElement = (elementId: string): HTMLElement => {
  * @param wait (number): Interval in ms the function must wait before being able to be called again
  * @returns function
  */
-const throttle = (func: Function, wait: number = 500): Function => {
+const throttle = (func: Function, wait: number = 500) => {
   let isThrottled: boolean = false;
   return function (this: any) {
     const context = this;
@@ -110,23 +115,16 @@ const toggleMenu = (menu: HTMLElement, menuButton: HTMLElement): void => {
 };
 
 /**
- * Executes a Event function only if menu is closed
- * @param func (Function): UIEvent triggered
- * @param menuButton (HTMLElement)
- * @returns Function | undefined
+ * Handles Keyboard, Wheel, and Touch UIEvents
+ * @param event (UIEvent)
+ * @param param1 (AppHtmlElements)
+ * @param initialContact (Point)
+ * @returns void
  */
-const handleEventTrigger = (func: Function, menuButton: HTMLElement) => {
-  if (!menuButton.classList.contains("active")) {
-    return function (this: any) {
-      const context = arguments;
-      func.apply(this, context);
-    };
-  }
-};
-
 const handleUIEvent = <UIEvent>(
   event: UIEvent,
-  { mainContent }: AppHtmlElements
+  { mainContent, menuButton }: AppHtmlElements,
+  initialContact: Point
 ) => {
   const sectionIds = getElementIds(mainContent);
   const calculateNextHash = (
@@ -151,6 +149,10 @@ const handleUIEvent = <UIEvent>(
     return nextLocationHash;
   };
 
+  if (menuButton.classList.contains("active")) {
+    return;
+  }
+
   if (event instanceof KeyboardEvent) {
     switch (event.key) {
       case "ArrowUp":
@@ -165,9 +167,32 @@ const handleUIEvent = <UIEvent>(
         break;
     }
   } else if (event instanceof WheelEvent) {
-    // Handle Wheel scroll
+    if (event.deltaY < 0) {
+      window.location.hash = calculateNextHash(sectionIds, -1);
+    } else if (event.deltaY > 0) {
+      window.location.hash = calculateNextHash(sectionIds, 1);
+    }
   } else if (event instanceof TouchEvent) {
-    // Handle touch event
+    if (!!!initialContact.x || !!!initialContact.y) {
+      return;
+    }
+
+    const xFinalTouch = event.touches[0].clientX;
+    const yFinalTouch = event.touches[0].clientY;
+
+    const xTouchDifference = xFinalTouch - initialContact.x;
+    const yTouchDifference = yFinalTouch - initialContact.y;
+
+    if (Math.abs(xTouchDifference) < Math.abs(yTouchDifference)) {
+      if (yTouchDifference > 0) {
+        window.location.hash = calculateNextHash(sectionIds, -1);
+      } else if (yTouchDifference < 0) {
+        window.location.hash = calculateNextHash(sectionIds, 1);
+      }
+    }
+
+    initialContact.x = null;
+    initialContact.y = null;
   }
 };
 
@@ -220,6 +245,13 @@ const appHtmlElements: AppHtmlElements = {
   menuButton: getSingleElement("menu-button"),
 };
 
+const initialContactPoint: Point = {
+  x: null,
+  y: null,
+};
+
+const throttleTime: number = 1200;
+
 window.location.hash = "#landing";
 
 /** Event listeners */
@@ -227,4 +259,34 @@ window.addEventListener("hashchange", () => handleTransition(appHtmlElements));
 
 appHtmlElements.menuButton.addEventListener("click", () =>
   toggleMenu(appHtmlElements.menuContent, appHtmlElements.menuButton)
+);
+
+window.addEventListener("touchstart", (event: TouchEvent) => {
+  initialContactPoint.x = event.touches[0].clientX;
+  initialContactPoint.y = event.touches[0].clientY;
+});
+
+window.addEventListener(
+  "touchmove",
+  throttle((event: TouchEvent) => {
+    handleUIEvent<TouchEvent>(event, appHtmlElements, initialContactPoint);
+  }, throttleTime),
+  { passive: false }
+);
+
+window.addEventListener(
+  "keydown",
+  throttle((event: KeyboardEvent) => {
+    event.preventDefault();
+    handleUIEvent<KeyboardEvent>(event, appHtmlElements, initialContactPoint);
+  }, throttleTime)
+);
+
+window.addEventListener(
+  "wheel",
+  throttle((event: WheelEvent) => {
+    event.preventDefault();
+    handleUIEvent<WheelEvent>(event, appHtmlElements, initialContactPoint);
+  }, throttleTime),
+  { passive: false }
 );
