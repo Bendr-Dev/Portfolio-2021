@@ -5,7 +5,7 @@
   --background-color: #00001e;
   --text-color: #fcfffc;
   --accent-color: #ff2151;
-  --nav-height: 2.75rem;
+  --nav-height: 4rem;
   --nav-width: 4rem;
   background-color: var(--background-color);
 }
@@ -62,8 +62,8 @@ p {
 
 /* Button */
 .button {
-  width: calc(var(--nav-height) - 1.25rem);
-  height: calc(var(--nav-height) - 1.25rem);
+  width: calc(var(--nav-height) - 2.5rem);
+  height: calc(var(--nav-height) - 2.5rem);
 }
 
 /* Logo */
