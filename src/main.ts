@@ -209,12 +209,26 @@ const handleTransition = ({
   menuButton,
 }: AppHtmlElements): void => {
   const sectionIds = getElementIds(mainContent);
-  const currentLocation = window.location.hash.substring(1).concat("-id");
+  const currentLocation: string = window.location.hash
+    .substring(1)
+    .concat("-id");
+  let isFound: boolean = false;
+
+  sectionIds.forEach((elementId: string) => {
+    if (currentLocation === elementId) {
+      isFound = true;
+      return;
+    }
+  });
+
+  if (!isFound) {
+    window.location.hash = "#landing";
+    return;
+  }
+
   const newPosition = calculateDisplacementByHash(sectionIds, currentLocation);
   const oldPosition = calculateDisplacementByElement(mainContent[0]);
   const newPositionIndex = sectionIds.indexOf(currentLocation);
-
-  // Make sure hash is valid
 
   // Update side navigation
   sideNavLinks.forEach((element: HTMLElement) => {
