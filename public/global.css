@@ -151,14 +151,42 @@ p {
   transition: all 500ms;
 }
 
-#menu-list > a {
-  color: var(--text-color);
+#menu-list > div {
+  width: 100%;
+  text-align: center;
   margin: 0 0 2rem 0;
+}
+
+#menu-list > div > a {
+  position: relative;
+  color: var(--text-color);
   text-decoration: none;
   font-size: clamp(1.5rem, 1.125rem + 1.6667vw, 2rem);
   font-family: "Montserrat", sans-serif;
   font-size: 300;
   transition: all 500ms;
+}
+
+#menu-list > div > a::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--text-color);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+#menu-list > div > a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+#menu-dropdown:not(.active) a {
+  margin-left: 2rem;
 }
 
 #side-nav {
