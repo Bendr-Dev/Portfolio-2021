@@ -65,6 +65,12 @@ export const translateElements = (
   window.requestAnimationFrame(frame);
 };
 
+/**
+ * Creates a particle animation on a canvas
+ * @param canvas (HTMLCanvasElement)
+ * @param numberOfStars (number)
+ * @param parentElement (HTMLElement)
+ */
 export const animateCanvas = (
   canvas: HTMLCanvasElement,
   numberOfStars: number,

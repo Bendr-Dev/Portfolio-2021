@@ -268,6 +268,7 @@ const throttleTime: number = 1200;
 
 window.location.hash = "#landing";
 
+/** Animate landing page canvas */
 animateCanvas(
   document.getElementById("canvas") as HTMLCanvasElement,
   150,
