@@ -1,4 +1,4 @@
-import { translateElements } from "./animation";
+import { animateCanvas, translateElements } from "./animation";
 
 interface AppHtmlElements {
   mainContent: Array<HTMLElement>;
@@ -267,6 +267,13 @@ const initialContactPoint: Point = {
 const throttleTime: number = 1200;
 
 window.location.hash = "#landing";
+
+/** Animate landing page canvas */
+animateCanvas(
+  document.getElementById("canvas") as HTMLCanvasElement,
+  150,
+  appHtmlElements.mainContent[0]
+);
 
 /** Event listeners */
 window.addEventListener("hashchange", () => handleTransition(appHtmlElements));
