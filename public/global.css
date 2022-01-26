@@ -69,6 +69,7 @@ span {
 }
 
 .footnote {
+  margin-bottom: 6rem;
   color: #fcfffcde;
   font-size: 1.5rem;
   position: absolute;
@@ -397,6 +398,10 @@ section {
     min-width: 50%;
     justify-content: center;
     margin-top: 0;
+  }
+
+  .footnote {
+    margin-bottom: 1.5rem;
   }
 
   #landing-id .content {
