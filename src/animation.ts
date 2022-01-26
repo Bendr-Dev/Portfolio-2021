@@ -71,11 +71,11 @@ export const translateElements = (
  * @param numberOfStars (number)
  * @param parentElement (HTMLElement)
  */
-export const animateCanvas = (
+export function animateCanvas(
   canvas: HTMLCanvasElement,
   numberOfStars: number,
   parentElement: HTMLElement
-) => {
+) {
   canvas.style.width = `${parentElement.offsetWidth}px`;
   canvas.style.height = `${parentElement.offsetHeight}px`;
   canvas.width = parentElement.offsetWidth;
@@ -159,4 +159,4 @@ export const animateCanvas = (
 
   initialize();
   requestAnimationFrame(frame);
-};
+}
