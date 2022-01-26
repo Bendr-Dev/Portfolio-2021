@@ -1,4 +1,4 @@
-import { animateCanvas, translateElements } from "./animation";
+import { translateElements } from "./animation";
 
 interface AppHtmlElements {
   mainContent: Array<HTMLElement>;
@@ -259,12 +259,6 @@ const appHtmlElements: AppHtmlElements = {
   menuButton: getSingleElement("menu-button"),
 };
 
-const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-canvas.style.width = `${appHtmlElements.mainContent[0].offsetWidth}px`;
-canvas.style.height = `${appHtmlElements.mainContent[0].offsetHeight}px`;
-canvas.width = appHtmlElements.mainContent[0].offsetWidth;
-canvas.height = appHtmlElements.mainContent[0].offsetHeight;
-
 const initialContactPoint: Point = {
   x: null,
   y: null,
@@ -273,9 +267,6 @@ const initialContactPoint: Point = {
 const throttleTime: number = 1200;
 
 window.location.hash = "#landing";
-
-/** Animate landing page canvas */
-animateCanvas(canvas, 150, appHtmlElements.mainContent[0]);
 
 /** Event listeners */
 window.addEventListener("hashchange", () => handleTransition(appHtmlElements));
