@@ -53,7 +53,8 @@ h6 {
 }
 
 /* Text */
-p {
+p,
+span {
   margin: 1.5rem 0;
   font-family: "Montserrat", sans-serif;
   color: var(--text-color);
@@ -65,6 +66,17 @@ p {
     1.25rem
   );
   line-height: 1.5;
+}
+
+.footnote {
+  color: #fcfffcde;
+  font-size: 1.5rem;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 /* Button */
@@ -230,6 +242,16 @@ p {
   animation: retract 500ms;
 }
 
+.blink {
+  animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
 @keyframes expand {
   from {
     width: 1rem;
@@ -271,9 +293,11 @@ section {
 
 .content,
 .additional-content {
+  margin-top: 4rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  height: 100%;
 }
 
 #landing-id {
@@ -371,6 +395,8 @@ section {
   .content,
   .additional-content {
     min-width: 50%;
+    justify-content: center;
+    margin-top: 0;
   }
 
   #landing-id .content {

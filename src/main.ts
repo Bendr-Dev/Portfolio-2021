@@ -244,7 +244,7 @@ const handleTransition = ({
   sideNavLinks[newPositionIndex].setAttribute("class", "active");
 
   // Move elements to new location
-  translateElements(mainContent, 1200, oldPosition, newPosition);
+  translateElements(mainContent, 800, oldPosition, newPosition);
 };
 
 /** Initialization */
@@ -264,7 +264,7 @@ const initialContactPoint: Point = {
   y: null,
 };
 
-const throttleTime: number = 1200;
+const throttleTime: number = 800;
 
 window.location.hash = "#landing";
 
