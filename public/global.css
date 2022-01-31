@@ -126,7 +126,7 @@ span {
 
 /* Navigation */
 #menu-bar {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -341,10 +341,6 @@ section {
 /* Large screen devices */
 @media only screen and (min-width: 769px) {
   /* General Style Rules */
-  body {
-    grid-template-areas: "nav main-content";
-  }
-
   #logo,
   #logo img {
     width: var(--nav-width);
