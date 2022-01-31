@@ -5,6 +5,7 @@ interface AppHtmlElements {
   sideNavLinks: NodeListOf<HTMLElement>;
   menuContent: HTMLElement;
   menuButton: HTMLElement;
+  scrollNotification: HTMLElement;
 }
 
 interface Point {
@@ -207,6 +208,7 @@ const handleTransition = ({
   sideNavLinks,
   menuContent,
   menuButton,
+  scrollNotification,
 }: AppHtmlElements): void => {
   const sectionIds = getElementIds(mainContent);
   const currentLocation: string = window.location.hash
@@ -238,6 +240,11 @@ const handleTransition = ({
     }
   });
 
+  window.location.hash === "#landing" &&
+    scrollNotification.classList.add("active");
+  window.location.hash !== "#landing" &&
+    scrollNotification.classList.remove("active");
+
   // Close menu navigation
   menuContent.classList.remove("active");
   menuButton.classList.remove("active");
@@ -257,6 +264,7 @@ const appHtmlElements: AppHtmlElements = {
   sideNavLinks: document.querySelectorAll<HTMLElement>("#side-nav > a"),
   menuContent: getSingleElement("menu-dropdown"),
   menuButton: getSingleElement("menu-button"),
+  scrollNotification: getSingleElement("scroll-notification"),
 };
 
 const initialContactPoint: Point = {
