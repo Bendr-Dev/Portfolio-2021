@@ -16,10 +16,6 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  display: grid;
-  grid-template-areas:
-    "nav"
-    "main-content";
 }
 
 body {
@@ -30,12 +26,11 @@ body {
 h1 {
   font-family: "Bebas Neue", sans-serif;
   color: var(--text-color);
-  font-size: 2rem;
-  font-size: clamp(2rem, 1.0609756097560976rem + 5.365853658536586vw, 7.5rem);
+  font-size: 3rem;
+  font-size: clamp(3rem, 2.1rem + 4.5vw, 7.5rem);
   word-spacing: 100vw;
-  letter-spacing: 0.1rem;
   line-height: 1.2;
-  margin: 1.5rem 0;
+  margin: 1.5rem 0 1rem 0;
 }
 
 h2,
@@ -46,8 +41,8 @@ h6 {
   font-family: "Montserrat", sans-serif;
   color: var(--text-color);
   font-weight: 300;
-  font-size: 1.5rem;
-  font-size: clamp(1.5rem, 1.1585365853658536rem + 1.951219512195122vw, 3.5rem);
+  font-size: 2rem;
+  font-size: clamp(2rem, 1.7rem + 1.5vw, 3.5rem);
   line-height: 1.2;
   margin: 1.5rem 0;
 }
@@ -60,24 +55,8 @@ span {
   color: var(--text-color);
   font-weight: 500;
   font-size: 1rem;
-  font-size: clamp(
-    0.75rem,
-    0.6646341463414634rem + 0.4878048780487805vw,
-    1.25rem
-  );
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
   line-height: 1.5;
-}
-
-.footnote {
-  margin-bottom: 8.5rem;
-  color: #fcfffcde;
-  font-size: 1.5rem;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
 /* Button */
@@ -100,9 +79,56 @@ span {
   height: var(--nav-height);
 }
 
+/* Scroll notification */
+#scroll-notification {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 2rem;
+  height: 12rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 500ms;
+}
+
+#scroll-notification span {
+  writing-mode: vertical-lr;
+  margin: 0;
+  height: 7rem;
+}
+
+#scroll-notification .vertical-bar {
+  height: 5rem;
+  width: 0.125rem;
+  background-color: var(--text-color);
+}
+
+#scroll-notification.active {
+  animation: slide-down reverse 500ms;
+  opacity: 1;
+}
+
+#scroll-notification:not(.active) {
+  animation: slide-down 500ms;
+  opacity: 0;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 /* Navigation */
 #menu-bar {
-  grid-area: nav;
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -214,7 +240,7 @@ span {
   top: 0;
   right: 0;
   height: 100vh;
-  width: var(--nav-width);
+  width: 2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -243,16 +269,6 @@ span {
   animation: retract 500ms;
 }
 
-.blink {
-  animation: blinker 2s linear infinite;
-}
-
-@keyframes blinker {
-  50% {
-    opacity: 0;
-  }
-}
-
 @keyframes expand {
   from {
     width: 1rem;
@@ -275,11 +291,10 @@ span {
 
 /* Content */
 main {
-  grid-area: main-content;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: calc(100vh - var(--nav-height));
+  width: 100vw;
+  height: 100vh;
 }
 
 section {
@@ -287,27 +302,21 @@ section {
   z-index: 1;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  min-height: calc(100% - var(--nav-width) * 2);
   justify-content: center;
-  padding: 0 var(--nav-width);
+  padding: var(--nav-width) 3rem;
 }
 
-.content,
-.additional-content {
-  margin-top: 4rem;
+.content {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
 }
 
-#landing-id {
-  padding: 0;
-}
-
 #landing-id .content {
   position: relative;
-  padding: 0 var(--nav-width);
+  justify-content: center;
 }
 
 #canvas {
@@ -340,6 +349,19 @@ section {
   #logo img {
     width: var(--nav-width);
     height: var(--nav-width);
+  }
+
+  /* Scroll Notification */
+  #scroll-notification {
+    height: 18rem;
+  }
+
+  #scroll-notification span {
+    height: 8rem;
+  }
+
+  #scroll-notification .vertical-bar {
+    height: 10rem;
   }
 
   /* Navigation */
@@ -380,7 +402,7 @@ section {
   /* Content */
   main {
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     transition: all 500ms;
   }
 
@@ -389,7 +411,9 @@ section {
   }
 
   section {
-    padding: 0 calc(var(--nav-width) * 2);
+    padding: calc(var(--nav-width) * 2) calc(var(--nav-width) * 4);
+    width: calc(100vw - var(--nav-width) * 8);
+    min-height: calc(100vh - var(--nav-height) * 4);
     flex-direction: row;
   }
 
@@ -398,13 +422,5 @@ section {
     min-width: 50%;
     justify-content: center;
     margin-top: 0;
-  }
-
-  .footnote {
-    margin-bottom: 1.5rem;
-  }
-
-  #landing-id .content {
-    padding: 0 calc(var(--nav-width) * 2);
   }
 }
