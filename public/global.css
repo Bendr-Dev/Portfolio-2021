@@ -90,6 +90,7 @@ span {
   flex-direction: column;
   align-items: center;
   transition: all 500ms;
+  z-index: 2;
 }
 
 #scroll-notification span {
@@ -302,7 +303,7 @@ section {
   z-index: 1;
   display: flex;
   flex-direction: column;
-  min-height: calc(100% - var(--nav-width) * 2);
+  min-height: calc(100% - var(--nav-height) * 2);
   justify-content: center;
   padding: var(--nav-width) 3rem;
 }
@@ -314,27 +315,45 @@ section {
   height: 100%;
 }
 
+/* Landing Page */
 #landing-id .content {
   position: relative;
   justify-content: center;
+  min-height: 60%;
 }
 
-#canvas {
-  position: absolute;
+#landing-id .photo-content {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40%;
 }
 
+.photo-content img {
+  background-image: linear-gradient(
+    360deg,
+    var(--accent-color) 0%,
+    var(--background-color) 75%
+  );
+  max-width: 100%;
+  height: auto;
+}
+
+/* Section Border */
 .border {
   height: 0.25rem;
   width: 5rem;
   background-color: var(--accent-color);
 }
 
+/* Links */
 .external-link {
   color: var(--accent-color);
   margin: 1.5rem 0;
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.25rem;
-  font-size: clamp(1.25rem, 1.2rem + 0.25vw, 1.5rem);
+  font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.75rem);
   line-height: 1.2;
 }
 
@@ -391,8 +410,8 @@ section {
   }
 
   #menu-list {
-    height: calc(100% - var(--nav-height) * 2);
-    padding: var(--nav-height);
+    height: calc(100% - var(--nav-width) * 2);
+    padding: var(--nav-width);
   }
 
   /* Content */
@@ -409,14 +428,18 @@ section {
   section {
     padding: calc(var(--nav-width) * 2) calc(var(--nav-width) * 4);
     width: calc(100vw - var(--nav-width) * 8);
-    min-height: calc(100vh - var(--nav-height) * 4);
+    min-height: calc(100vh - var(--nav-width) * 4);
     flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  #landing-id .photo-content {
+    margin-top: 0;
   }
 
   .content,
-  .additional-content {
+  .photo-content {
     min-width: 50%;
-    justify-content: center;
-    margin-top: 0;
+    max-width: 50%;
   }
 }
