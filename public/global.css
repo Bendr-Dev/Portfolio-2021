@@ -4,7 +4,7 @@
 :root {
   --background-color: #00001e;
   --text-color: #fcfffc;
-  --accent-color: #ff2151;
+  --accent-color: #ff0040;
   --nav-height: 4rem;
   --nav-width: 4rem;
   background-color: var(--background-color);
@@ -50,7 +50,7 @@ h6 {
 /* Text */
 p,
 span {
-  margin: 1.5rem 0;
+  margin: 1.25rem 0;
   font-family: "Montserrat", sans-serif;
   color: var(--text-color);
   font-weight: 500;
@@ -212,6 +212,7 @@ span {
   font-family: "Montserrat", sans-serif;
   font-size: 300;
   transition: all 500ms;
+  padding-bottom: 0.25rem;
 }
 
 #menu-list > div > a::after {
@@ -224,10 +225,11 @@ span {
   left: 0;
   background-color: var(--text-color);
   transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
+  transition: transform 0.25s ease-in;
 }
 
-#menu-list > div > a:hover::after {
+#menu-list > div > a:hover::after,
+#menu-list > div > a.active::after {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
@@ -323,10 +325,10 @@ section {
 }
 
 #landing-id .photo-content {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 40%;
 }
 
@@ -336,8 +338,8 @@ section {
     var(--accent-color) 0%,
     var(--background-color) 75%
   );
-  max-width: 100%;
-  height: auto;
+  width: 250px;
+  height: 250px;
 }
 
 /* Section Border */
@@ -354,6 +356,7 @@ section {
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.25rem;
   font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.75rem);
+  letter-spacing: 0.025rem;
   line-height: 1.2;
 }
 
@@ -435,11 +438,17 @@ section {
 
   #landing-id .photo-content {
     margin-top: 0;
+    justify-content: center;
   }
 
   .content,
   .photo-content {
     min-width: 50%;
     max-width: 50%;
+  }
+
+  .photo-content img {
+    width: 400px;
+    height: 400px;
   }
 }
