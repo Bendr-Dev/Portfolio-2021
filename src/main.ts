@@ -3,6 +3,7 @@ import { translateElements } from "./animation";
 interface AppHtmlElements {
   mainContent: Array<HTMLElement>;
   sideNavLinks: NodeListOf<HTMLElement>;
+  menuNavLinks: NodeListOf<HTMLElement>;
   menuContent: HTMLElement;
   menuButton: HTMLElement;
   scrollNotification: HTMLElement;
@@ -206,6 +207,7 @@ const handleUIEvent = <UIEvent>(
 const handleTransition = ({
   mainContent,
   sideNavLinks,
+  menuNavLinks,
   menuContent,
   menuButton,
   scrollNotification,
@@ -232,14 +234,16 @@ const handleTransition = ({
   const oldPosition = calculateDisplacementByElement(mainContent[0]);
   const newPositionIndex = sectionIds.indexOf(currentLocation);
 
-  // Update side navigation
-  sideNavLinks.forEach((element: HTMLElement) => {
+  // Update navigation
+  sideNavLinks.forEach((element: HTMLElement, index: number) => {
     if (element.className === "active") {
+      menuNavLinks[index].removeAttribute("class");
       element.removeAttribute("class");
       return;
     }
   });
 
+  // Handle scroll notification
   window.location.hash === "#landing" &&
     scrollNotification.classList.add("active");
   window.location.hash !== "#landing" &&
@@ -249,6 +253,7 @@ const handleTransition = ({
   menuContent.classList.remove("active");
   menuButton.classList.remove("active");
   sideNavLinks[newPositionIndex].setAttribute("class", "active");
+  menuNavLinks[newPositionIndex].setAttribute("class", "active");
 
   // Move elements to new location
   translateElements(mainContent, 800, oldPosition, newPosition);
@@ -262,6 +267,7 @@ const appHtmlElements: AppHtmlElements = {
     })
     .filter(isDefinedType),
   sideNavLinks: document.querySelectorAll<HTMLElement>("#side-nav > a"),
+  menuNavLinks: document.querySelectorAll<HTMLElement>("#menu-list > div > a"),
   menuContent: getSingleElement("menu-dropdown"),
   menuButton: getSingleElement("menu-button"),
   scrollNotification: getSingleElement("scroll-notification"),
