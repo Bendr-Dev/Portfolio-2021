@@ -239,6 +239,7 @@ const handleTransition = ({
     if (element.className === "active") {
       menuNavLinks[index].removeAttribute("class");
       element.removeAttribute("class");
+      mainContent[index].classList.remove("active");
       return;
     }
   });
@@ -278,9 +279,10 @@ const initialContactPoint: Point = {
   y: null,
 };
 
-const throttleTime: number = 800;
+const throttleTime: number = 1600;
 
 window.location.hash = "#landing";
+appHtmlElements.mainContent[0].classList.add("active");
 
 /** Event listeners */
 window.addEventListener("hashchange", () => handleTransition(appHtmlElements));
