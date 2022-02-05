@@ -362,7 +362,7 @@ section.active .photo-content > .cover {
   grid-area: 1 / 1;
   align-self: flex-end;
   width: 250px;
-  height: 100%;
+  height: 0%;
   background-color: var(--background-color);
 }
 
