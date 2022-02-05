@@ -282,7 +282,6 @@ const initialContactPoint: Point = {
 const throttleTime: number = 1600;
 
 window.location.hash = "#landing";
-appHtmlElements.mainContent[0].classList.add("active");
 
 /** Event listeners */
 window.addEventListener("hashchange", () => handleTransition(appHtmlElements));
