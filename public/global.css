@@ -7,8 +7,6 @@
   --accent-color: #ff0040;
   --nav-height: 4rem;
   --nav-width: 4rem;
-  --transition-speed: 500ms;
-  --section-content-transition-speed: 1000ms;
   background-color: var(--background-color);
 }
 
@@ -57,7 +55,7 @@ span {
   color: var(--text-color);
   font-weight: 500;
   font-size: 1rem;
-  font-size: clamp(1rem, 0.88rem + 0.6000000000000001vw, 1.6rem);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
   line-height: 1.5;
 }
 
@@ -91,13 +89,11 @@ span {
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all var(--transition-speed);
+  transition: all 500ms;
   z-index: 2;
 }
 
 #scroll-notification span {
-  font-size: 1rem;
-  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.25rem);
   writing-mode: vertical-lr;
   margin: 0;
   height: 7rem;
@@ -110,12 +106,12 @@ span {
 }
 
 #scroll-notification.active {
-  animation: slide-down reverse var(--transition-speed);
+  animation: slide-down reverse 500ms;
   opacity: 1;
 }
 
 #scroll-notification:not(.active) {
-  animation: slide-down var(--transition-speed);
+  animation: slide-down 500ms;
   opacity: 0;
 }
 
@@ -147,7 +143,7 @@ span {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: all var(--transition-speed);
+  transition: all 500ms;
   cursor: pointer;
 }
 
@@ -155,7 +151,7 @@ span {
   width: 100%;
   height: 0.25rem;
   background-color: var(--text-color);
-  transition: all var(--transition-speed);
+  transition: all 500ms;
 }
 
 #menu-button.active .top {
@@ -184,12 +180,12 @@ span {
     var(--background-color) 0%,
     var(--accent-color) 75%
   );
-  transition: all var(--transition-speed);
+  transition: all 500ms;
 }
 
 #menu-dropdown.active {
   width: 100%;
-  transition: all var(--transition-speed);
+  transition: all 500ms;
 }
 
 #menu-list {
@@ -199,7 +195,7 @@ span {
   padding: var(--nav-height);
   justify-content: center;
   align-items: center;
-  transition: all var(--transition-speed);
+  transition: all 500ms;
 }
 
 #menu-list > div {
@@ -215,7 +211,7 @@ span {
   font-size: clamp(1.5rem, 1.125rem + 1.6667vw, 2rem);
   font-family: "Montserrat", sans-serif;
   font-size: 300;
-  transition: all var(--transition-speed);
+  transition: all 500ms;
   padding-bottom: 0.25rem;
 }
 
@@ -228,13 +224,14 @@ span {
   bottom: 0;
   left: 0;
   background-color: var(--text-color);
-  transform-origin: bottom left;
-  transition: transform 250ms;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-in;
 }
 
 #menu-list > div > a:hover::after,
 #menu-list > div > a.active::after {
   transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 #menu-dropdown:not(.active) a {
@@ -262,17 +259,17 @@ span {
 }
 
 #side-nav > a.active {
-  animation: expand var(--transition-speed);
+  animation: expand 500ms;
   width: 1.5rem;
 }
 
 #side-nav > a:hover {
-  animation: expand var(--transition-speed);
+  animation: expand 500ms;
   width: 1.5rem;
 }
 
 #side-nav > a:not(:hover):not(.active) {
-  animation: retract var(--transition-speed);
+  animation: retract 500ms;
 }
 
 @keyframes expand {
@@ -320,29 +317,6 @@ section {
   height: 100%;
 }
 
-/* Information transitions */
-section.active .content > .border {
-  transition: width var(--section-content-transition-speed)
-    cubic-bezier(0.25, 0.15, 0.25, 1);
-}
-
-section.active .content > h1 {
-  transition: transform var(--section-content-transition-speed)
-    cubic-bezier(0.25, 0.15, 0.25, 1);
-}
-
-section.active .content > h2,
-section.active .content > p,
-section.active .content > a {
-  transition: transform var(--section-content-transition-speed)
-    cubic-bezier(0.25, 0.15, 0.25, 1) 300ms;
-}
-
-section.active .photo-content > .cover {
-  transition: height var(--section-content-transition-speed)
-    cubic-bezier(0, 0, 0, 1) 800ms;
-}
-
 /* Landing Page */
 #landing-id .content {
   position: relative;
@@ -352,22 +326,13 @@ section.active .photo-content > .cover {
 
 #landing-id .photo-content {
   margin-top: 1rem;
-  display: grid;
+  display: flex;
   align-items: center;
   justify-content: flex-start;
   min-height: 40%;
 }
 
-.cover {
-  grid-area: 1 / 1;
-  align-self: flex-end;
-  width: 250px;
-  height: 100%;
-  background-color: var(--background-color);
-}
-
 .photo-content img {
-  grid-area: 1 / 1;
   background-image: linear-gradient(
     360deg,
     var(--accent-color) 0%,
@@ -391,7 +356,7 @@ section.active .photo-content > .cover {
   font-family: "Bebas Neue", sans-serif;
   font-size: 1.25rem;
   font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.75rem);
-  letter-spacing: 0.05rem;
+  letter-spacing: 0.025rem;
   line-height: 1.2;
 }
 
@@ -444,6 +409,7 @@ section.active .photo-content > .cover {
 
   #menu-dropdown.active {
     width: 25%;
+    transition: all 500ms;
   }
 
   #menu-list {
@@ -455,7 +421,7 @@ section.active .photo-content > .cover {
   main {
     height: 100vh;
     width: 100vw;
-    transition: all var(--transition-speed);
+    transition: all 500ms;
   }
 
   #menu-dropdown.active ~ main {
@@ -484,9 +450,5 @@ section.active .photo-content > .cover {
   .photo-content img {
     width: 400px;
     height: 400px;
-  }
-
-  .cover {
-    width: 400px;
   }
 }
